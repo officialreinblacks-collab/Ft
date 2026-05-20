@@ -185,34 +185,42 @@
             background:linear-gradient(0deg, #000000 0%, transparent 40%, rgba(0,0,0,0.6) 85%, #000000 100%);
             z-index:2;
         }
-        /* ── Hero smoke animation (lightweight, no lag) ── */
-        .hero-smoke {
-            position:absolute; bottom:0; left:0; width:100%; height:40%;
-            background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(0,0,0,0.15)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,138.7C672,128,768,160,864,181.3C960,203,1056,213,1152,202.7C1248,192,1344,160,1392,144L1440,128L1440,320L0,320Z"/></svg>') repeat-x bottom;
-            background-size:cover;
-            opacity:0.6;
-            animation:smokeDrift 20s linear infinite;
-            pointer-events:none; z-index:1;
-        }
-        @keyframes smokeDrift {
-            0%{ background-position:0 100%; }
-            100%{ background-position:1440px 100%; }
-        }
-        .hero-content {
-            position:relative; z-index:3; display:flex; flex-direction:column;
-            justify-content:flex-end; align-items:flex-start; height:100%;
-            padding:100px 30px 70px; max-width:850px;
-        }
-        .hero-tag { font-size:0.8rem; letter-spacing:0.18em; color:var(--red); text-transform:uppercase; margin-bottom:8px; font-weight:700; text-shadow:0 0 10px rgba(0,0,0,0.5); }
-        .hero-title { font-size:clamp(2rem,5vw,3.5rem); font-weight:900; line-height:1.1; margin-bottom:6px; text-shadow:0 0 40px rgba(0,0,0,0.7); }
-        .hero-subtitle { font-size:clamp(0.9rem,2vw,1.1rem); color:#ccc; margin-bottom:20px; text-shadow:0 0 20px rgba(0,0,0,0.7); max-width:700px; }
-        .hero-play-btn {
-            display:inline-flex; align-items:center; gap:8px; padding:12px 28px;
-            background:var(--red); color:#fff; border:none; border-radius:28px;
-            font-size:0.95rem; font-weight:700; cursor:pointer; letter-spacing:0.04em;
-            transition:all 0.3s; box-shadow:0 0 20px rgba(229,9,20,0.4); text-decoration:none;
-        }
-        .hero-play-btn:hover { background:#ff1a25; box-shadow:0 0 35px rgba(229,9,20,0.6); transform:scale(1.03); }
+        /* ── Hero smoke animation (pure CSS, no images) ── */
+.hero-smoke {
+    position:absolute; bottom:0; left:0; width:100%; height:40%;
+    pointer-events:none; z-index:1;
+    overflow:hidden;
+}
+.hero-smoke::before,
+.hero-smoke::after {
+    content:'';
+    position:absolute;
+    bottom:0;
+    width:200%;
+    height:100%;
+    background:radial-gradient(ellipse at 50% 100%, rgba(255,255,255,0.12) 0%, transparent 60%);
+    animation:smokeDriftA 12s ease-in-out infinite;
+}
+.hero-smoke::after {
+    background:radial-gradient(ellipse at 30% 80%, rgba(255,255,255,0.08) 0%, transparent 50%);
+    animation:smokeDriftB 18s ease-in-out infinite;
+    opacity:0.7;
+}
+@keyframes smokeDriftA {
+    0%{ transform:translateX(-10%) scaleY(1); opacity:0.4; }
+    25%{ transform:translateX(5%) scaleY(1.4); opacity:0.7; }
+    50%{ transform:translateX(15%) scaleY(1); opacity:0.3; }
+    75%{ transform:translateX(0%) scaleY(1.6); opacity:0.6; }
+    100%{ transform:translateX(-10%) scaleY(1); opacity:0.4; }
+}
+@keyframes smokeDriftB {
+    0%{ transform:translateX(5%) scaleY(1.2); opacity:0.3; }
+    33%{ transform:translateX(-8%) scaleY(1.5); opacity:0.5; }
+    66%{ transform:translateX(10%) scaleY(1); opacity:0.2; }
+    100%{ transform:translateX(5%) scaleY(1.2); opacity:0.3; }
+}
+
+    
 
         /* ─────────────── CONTENT SECTIONS ─────────────── */
         .content-section {
